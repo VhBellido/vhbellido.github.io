@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vitor Bellido · Portfólio</title>
+<meta name="description" content="Portfólio de Vitor Bellido: automação, engenharia de dados e BI no varejo de telecom.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: coluna única de leitura; cada case é uma "ficha de execução": problema, fluxo, decisões, linha de log. */
+:root{
+  --bg:#f3f5f8; --surface:#ffffff; --ink:#132030; --muted:#566476; --line:#d9dfe7;
+  --accent:#1f4fd1; --accent-soft:#e6ecfb; --ok:#1b7f4b; --warn:#a86400; --log-bg:#0f1824; --log-fg:#c9d4e2;
+  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0d141d; --surface:#141e2a; --ink:#e6edf5; --muted:#9aa8b9; --line:#253244;
+  --accent:#7ea2ff; --accent-soft:#1c2a47; --ok:#57c98b; --warn:#e2a64a; --log-bg:#070c12; --log-fg:#b9c6d6; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0d141d; --surface:#141e2a; --ink:#e6edf5; --muted:#9aa8b9; --line:#253244;
+  --accent:#7ea2ff; --accent-soft:#1c2a47; --ok:#57c98b; --warn:#e2a64a; --log-bg:#070c12; --log-fg:#b9c6d6; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;margin:0}
+.wrap{max-width:1040px;margin:0 auto;padding-inline:20px;padding-block:0 64px}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.1}
+.mono{font-family:var(--f-mono)}
+
+/* topo */
+header.top{padding-block:56px 36px;display:grid;gap:22px;border-bottom:1px solid var(--line)}
+.kicker{font-family:var(--f-mono);font-size:13px;color:var(--muted);letter-spacing:.04em}
+.kicker b{color:var(--ok);font-weight:500}
+h1{font-size:clamp(40px,7vw,72px);font-weight:800;letter-spacing:-.02em}
+.role{font-size:clamp(18px,2.4vw,22px);color:var(--muted);max-width:46ch;margin:0}
+.thesis{font-family:var(--f-display);font-weight:500;font-size:clamp(22px,3.2vw,30px);max-width:30ch;margin:0;line-height:1.25}
+.thesis em{font-style:normal;color:var(--accent)}
+.links{display:flex;flex-wrap:wrap;gap:10px}
+.links a,.links button{font:500 14px var(--f-body);text-decoration:none;color:var(--ink);background:var(--surface);border:1px solid var(--line);padding:8px 14px;border-radius:999px;cursor:pointer}
+.links a:hover,.links button:hover{border-color:var(--accent);color:var(--accent)}
+
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:36px}
+.fact{background:var(--surface);padding:18px 18px 16px}
+.fact .n{font-family:var(--f-display);font-weight:700;font-size:34px;line-height:1;font-variant-numeric:tabular-nums}
+.fact .l{font-size:14px;color:var(--muted);margin-top:8px;line-height:1.4}
+@media (max-width:720px){.facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* princípios */
+section{margin-top:64px}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+h2{font-size:clamp(26px,3.6vw,36px);font-weight:700;letter-spacing:-.01em}
+.sec-sub{color:var(--muted);margin:6px 0 0;max-width:60ch}
+.principles{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px 28px}
+.pr h3{font-size:18px;font-weight:700;margin-bottom:6px}
+.pr p{margin:0;color:var(--muted);font-size:15px}
+.pr .tag{font-family:var(--f-mono);font-size:12px;color:var(--accent);display:block;margin-bottom:6px}
+
+/* filtros */
+.filters{display:flex;flex-wrap:wrap;gap:8px}
+.filters button{font:500 14px var(--f-body);background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:6px 13px;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+/* cases */
+.cases{display:grid;gap:22px}
+.case{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:26px 26px 0;display:grid;gap:18px;overflow:hidden}
+.case-top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline}
+.pillar{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.case h3{font-size:clamp(22px,2.8vw,28px);font-weight:700;margin-top:4px}
+.scale{font-size:14px;color:var(--muted)}
+.pv{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:26px}
+@media (max-width:760px){.pv{grid-template-columns:minmax(0,1fr)}}
+.lbl{font-family:var(--f-mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px}
+.pv p{margin:0}
+.pv ul{margin:0;padding-left:18px;display:grid;gap:6px}
+.pv li::marker{color:var(--accent)}
+
+.flow-box{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.flow{display:flex;align-items:stretch;gap:0;min-width:min-content;padding-block:4px}
+.node{flex:0 0 auto;max-width:180px;border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:9px 12px;font-size:13.5px;line-height:1.35}
+.node small{display:block;font-family:var(--f-mono);font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px}
+.node.key{border-color:var(--accent);background:var(--accent-soft)}
+.arr{flex:0 0 28px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-family:var(--f-mono)}
+
+.stack{display:flex;flex-wrap:wrap;gap:6px}
+.stack span{font-family:var(--f-mono);font-size:12px;border:1px solid var(--line);border-radius:4px;padding:2px 7px;color:var(--muted)}
+.log{margin:0 -26px;background:var(--log-bg);color:var(--log-fg);font-family:var(--f-mono);font-size:12.5px;padding:12px 26px;overflow-x:auto;white-space:pre}
+.log .t{opacity:.55}.log .ok{color:#6fd39b}.log .w{color:#f0b75c}
+
+/* mais projetos */
+.more{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.mini{border-top:2px solid var(--ink);padding-top:12px}
+.mini h3{font-size:17px;font-weight:700;margin-bottom:4px}
+.mini p{margin:0;font-size:14.5px;color:var(--muted)}
+.mini .stack{margin-top:8px}
+
+.dash{display:flex;flex-wrap:wrap;gap:8px}
+.dash span{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:6px 11px;font-size:14px}
+
+footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--line);color:var(--muted);font-size:14px;display:grid;gap:8px}
+.toast{font-family:var(--f-mono);font-size:12px;color:var(--ok);min-height:1em}
+@media (prefers-reduced-motion:no-preference){.case{transition:border-color .2s}.case:hover{border-color:var(--accent)}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header class="top">
+  <div class="kicker">vitor@bauru-sp:~$ portfolio --desde dez/2024 <b>✓ ok</b></div>
+  <h1>Vitor Bellido</h1>
+  <p class="role">Analista de BI Pleno no Grupo HS (Claro | Motorola) · Engenharia de dados e automação com Python, SQL e Power BI · Economia (2026)</p>
+  <p class="thesis">Tiro o trabalho manual do caminho, com <em>travas para que nada quebre na loja</em>.</p>
+  <div class="links">
+    <a href="https://www.linkedin.com/in/vitorbellido" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/VhBellido" target="_blank" rel="noopener">GitHub</a>
+    <button type="button" id="copyMail">vhbellido12@gmail.com · copiar</button>
+  </div>
+  <div class="toast" id="toast" aria-live="polite"></div>
+</header>
+
+<div class="facts" role="list">
+  <div class="fact" role="listitem"><div class="n">20+</div><div class="l">automações, robôs e sistemas em produção</div></div>
+  <div class="fact" role="listitem"><div class="n">15+</div><div class="l">painéis Power BI mantidos</div></div>
+  <div class="fact" role="listitem"><div class="n">84</div><div class="l">lojas recebem etiquetas de preço geradas automaticamente</div></div>
+  <div class="fact" role="listitem"><div class="n">31</div><div class="l">usuários no sistema de movimentações de pessoal</div></div>
+</div>
+
+<section aria-labelledby="como">
+  <div class="sec-head"><div><h2 id="como">Como eu construo</h2>
+  <p class="sec-sub">O mesmo padrão aparece em quase todos os projetos abaixo.</p></div></div>
+  <div class="principles">
+    <div class="pr"><span class="tag">idempotência</span><h3>Rodar duas vezes não estraga nada</h3><p>Cargas com upsert e assinatura de linha: só grava o que mudou, nunca duplica.</p></div>
+    <div class="pr"><span class="tag">travas</span><h3>Na dúvida, para</h3><p>Se o dado chega incompleto ou o arquivo é de outra janela, o robô interrompe e explica o motivo.</p></div>
+    <div class="pr"><span class="tag">ordem segura</span><h3>Publica antes de apagar</h3><p>O novo entra antes de o antigo sair. Transações com rollback quando algo falha.</p></div>
+    <div class="pr"><span class="tag">operação</span><h3>Feito para quem não programa</h3><p>Um .bat de duplo clique, modo simulação, log legível e LEIA-ME em português simples.</p></div>
+  </div>
+</section>
+
+<section aria-labelledby="cases">
+  <div class="sec-head">
+    <div><h2 id="cases">Cases</h2><p class="sec-sub">Problema, solução e o fluxo de cada um. Sem dados internos da empresa.</p></div>
+    <div class="filters" role="group" aria-label="Filtrar por área">
+      <button type="button" data-f="all" aria-pressed="true">Todos</button>
+      <button type="button" data-f="sis" aria-pressed="false">Sistemas</button>
+      <button type="button" data-f="eng" aria-pressed="false">Engenharia de dados</button>
+      <button type="button" data-f="rpa" aria-pressed="false">Robôs</button>
+      <button type="button" data-f="tool" aria-pressed="false">Ferramentas</button>
+    </div>
+  </div>
+
+  <div class="cases">
+
+  <article class="case" data-p="sis">
+    <div class="case-top"><div><div class="pillar">Sistema interno</div><h3>Integrador de Movimentações de Colaboradores</h3></div><div class="scale">31 usuários · RH, operação e TI</div></div>
+    <div class="pv">
+      <div><div class="lbl">Problema</div><p>Cada transferência, promoção ou desligamento precisava ser replicado à mão em quatro sistemas diferentes (SULTS, Controle Celular, Protheus e EAD). Ninguém sabia em que etapa cada pedido estava, e auditorias desfaziam transferências ainda em curso.</p></div>
+      <div><div class="lbl">Solução</div><ul>
+        <li>API em Python com interface web. O HRBP abre a solicitação e o sistema cria as etapas por área.</li>
+        <li>Extensão do Chrome (Manifest V3) que executa as alterações no SULTS e no Controle Celular e só conclui quando confirma o estado final.</li>
+        <li>Login por código de 6 dígitos enviado ao e-mail corporativo. Sem senha para guardar.</li>
+        <li>Permissões aplicadas no servidor: cada pessoa vê só as movimentações das suas lojas.</li>
+        <li>Aviso automático 3 dias antes do fim de uma transferência temporária.</li>
+      </ul></div>
+    </div>
+    <div class="flow-box"><div class="flow">
+      <div class="node"><small>entrada</small>HRBP abre a solicitação</div><div class="arr">→</div>
+      <div class="node key"><small>integrador</small>Cria etapas por área</div><div class="arr">→</div>
+      <div class="node"><small>execução</small>Extensão atua no SULTS e no Controle Celular</div><div class="arr">→</div>
+      <div class="node"><small>registro</small>Histórico no MySQL</div><div class="arr">→</div>
+      <div class="node"><small>auditoria</small>Respeita o estado efetivo</div>
+    </div></div>
+    <div class="stack"><span>Python</span><span>API web</span><span>JavaScript</span><span>Chrome Extension MV3</span><span>MySQL</span><span>HTTPS / TLS</span></div>
+    <div class="log"><span class="t">[checkpoint]</span> Transferência temporária · etapa "Controle Celular" <span class="ok">concluída e confirmada</span>
+<span class="t">[rotina 6h]</span> 1 vencimento em 3 dias · aviso enviado a quem abriu</div>
+  </article>
+
+  <article class="case" data-p="sis">
+    <div class="case-top"><div><div class="pillar">Sistema interno</div><h3>Etiquetas de preço: do Power BI direto para as lojas</h3></div><div class="scale">84 lojas · menos de 2 minutos por publicação</div></div>
+    <div class="pv">
+      <div><div class="lbl">Problema</div><p>A tabela de preços da operadora muda com frequência. Atualizar a etiqueta de cada aparelho e distribuir para as lojas era manual, lento e sujeito a erro de preço no balcão.</p></div>
+      <div><div class="lbl">Solução</div><ul>
+        <li>Modelo Power BI que traduz a tabela nacional em preços por plano, parcelas e plano foco.</li>
+        <li>Python lê o .pbix salvo e gera uma etiqueta A4 por aparelho, com os mesmos números do relatório.</li>
+        <li>Publica no SULTS separado por marca e condição de parcelamento.</li>
+        <li>Guarda uma "impressão digital" de cada etiqueta: na rodada seguinte, só sobe o que mudou.</li>
+        <li>Sobe o novo antes de arquivar o antigo. Se algum envio falha, não arquiva nada. Tem modo simulação.</li>
+      </ul></div>
+    </div>
+    <div class="flow-box"><div class="flow">
+      <div class="node"><small>fonte</small>Tabela nacional da operadora</div><div class="arr">→</div>
+      <div class="node"><small>modelo</small>Power BI de preços</div><div class="arr">→</div>
+      <div class="node key"><small>python</small>Gera PDFs e compara com a última publicação</div><div class="arr">→</div>
+      <div class="node"><small>destino</small>SULTS, por marca</div><div class="arr">→</div>
+      <div class="node"><small>loja</small>Etiqueta atualizada</div>
+    </div></div>
+    <div class="stack"><span>Power BI</span><span>DAX</span><span>Python</span><span>Geração de PDF</span><span>Automação web</span></div>
+    <div class="log"><span class="t">[etiquetas]</span> 50 aparelhos lidos · 6 com preço alterado · 44 pulados (sem mudança)
+<span class="t">[sults]</span> 6 publicadas <span class="ok">✓</span> · 6 antigas arquivadas <span class="ok">✓</span></div>
+  </article>
+
+  <article class="case" data-p="eng">
+    <div class="case-top"><div><div class="pillar">Engenharia de dados</div><h3>DRE gerencial reconstruída a partir do ERP</h3></div><div class="scale">Fato + 15 dimensões · carga histórica e mensal</div></div>
+    <div class="pv">
+      <div><div class="lbl">Problema</div><p>A DRE precisava ser aberta por loja, centro de custo e até por funcionário, mas o ERP (TOTVS Protheus) entrega lançamentos contábeis difíceis de explicar e auditar.</p></div>
+      <div><div class="lbl">Solução</div><ul>
+        <li>Modelo dimensional em SQL: uma tabela fato unificada e 15 dimensões (conta, centro de custo, filial, fornecedor, verba de folha…).</li>
+        <li>Python extrai, transforma e grava em Parquet para o Power BI.</li>
+        <li>A folha é aberta por funcionário e sempre fecha de volta no lançamento contábil.</li>
+        <li>O mês só é publicado quando as conferências contábeis e de folha batem. Regra própria para o 13º em dezembro.</li>
+      </ul></div>
+    </div>
+    <div class="flow-box"><div class="flow">
+      <div class="node"><small>origem</small>SQL Server · Protheus</div><div class="arr">→</div>
+      <div class="node"><small>sql</small>Fato + dimensões</div><div class="arr">→</div>
+      <div class="node key"><small>python</small>Transforma e valida</div><div class="arr">→</div>
+      <div class="node"><small>armazenamento</small>Parquet</div><div class="arr">→</div>
+      <div class="node"><small>consumo</small>Power BI</div>
+    </div></div>
+    <div class="stack"><span>SQL Server</span><span>Python</span><span>pandas</span><span>Parquet</span><span>Modelagem dimensional</span><span>Power BI</span></div>
+    <div class="log"><span class="t">[validar_modelo]</span> trava contábil <span class="ok">ok</span> · trava de folha <span class="ok">ok</span> → mês liberado para publicação</div>
+  </article>
+
+  <article class="case" data-p="rpa">
+    <div class="case-top"><div><div class="pillar">Robô</div><h3>Robô IW: coleta no portal da operadora</h3></div><div class="scale">Todos os logins e PDVs · 5 relatórios</div></div>
+    <div class="pv">
+      <div><div class="lbl">Problema</div><p>Vendas, comissões, extratos, rebate e atendimentos ficavam num portal que exige entrar em cada login e cada ponto de venda, um por um, para baixar relatórios.</p></div>
+      <div><div class="lbl">Solução</div><ul>
+        <li>Robô com Playwright que percorre todos os logins e extrai os cinco tipos de relatório.</li>
+        <li>Confere se a loja do PDF baixado é a loja certa antes de gravar no banco.</li>
+        <li>Modo de reprocessamento para refazer um período ou recomeçar de um login específico.</li>
+        <li>Painel de status desenhado dentro da própria página, para quem acompanha a execução.</li>
+      </ul></div>
+    </div>
+    <div class="flow-box"><div class="flow">
+      <div class="node"><small>portal</small>Login → PDV</div><div class="arr">→</div>
+      <div class="node key"><small>robô</small>Extrai 5 relatórios</div><div class="arr">→</div>
+      <div class="node"><small>validação</small>Loja do PDF confere?</div><div class="arr">→</div>
+      <div class="node"><small>banco</small>MySQL</div><div class="arr">→</div>
+      <div class="node"><small>consumo</small>Comissão e premiação</div>
+    </div></div>
+    <div class="stack"><span>Python</span><span>Playwright</span><span>MySQL</span><span>Extração de PDF</span></div>
+    <div class="log"><span class="t">[atendimento]</span> PDV trocado · loja do PDF <span class="ok">confere</span> · gravado
+<span class="t">[atendimento]</span> loja do PDF <span class="w">diferente</span> · troca de PDV forçada e nova tentativa</div>
+  </article>
+
+  <article class="case" data-p="rpa">
+    <div class="case-top"><div><div class="pillar">Robô</div><h3>Robô SAV: volumetria de trocas de aparelhos</h3></div><div class="scale">Diário, semanal e carga histórica</div></div>
+    <div class="pv">
+      <div><div class="lbl">Problema</div><p>Os pedidos de troca chegavam como exportação por e-mail, com datas em texto e sem histórico. Não dava para saber quando cada pedido mudou de status.</p></div>
+      <div><div class="lbl">Solução</div><ul>
+        <li>Três modos: carga histórica, atualização diária (janela de 90 dias) e varredura semanal dos pedidos em aberto.</li>
+        <li>Cada pedido é uma linha. Só é atualizado se algum campo mudou, e a troca de status vai para uma tabela de histórico.</li>
+        <li>Confere cada arquivo recebido (janela de datas, quantidade de linhas) para não usar um e-mail de outra exportação.</li>
+        <li>Converte as datas de texto para data de verdade, para o BI filtrar.</li>
+      </ul></div>
+    </div>
+    <div class="flow-box"><div class="flow">
+      <div class="node"><small>sistema</small>Pede a exportação</div><div class="arr">→</div>
+      <div class="node"><small>outlook</small>Recebe o arquivo</div><div class="arr">→</div>
+      <div class="node key"><small>robô</small>Valida e compara</div><div class="arr">→</div>
+      <div class="node"><small>banco</small>MariaDB + histórico</div><div class="arr">→</div>
+      <div class="node"><small>consumo</small>Power BI</div>
+    </div></div>
+    <div class="stack"><span>Python</span><span>Playwright</span><span>Outlook (COM)</span><span>MariaDB</span><span>SQL</span></div>
+    <div class="log"><span class="t">[sav]</span> 412 pedidos lidos · 18 novos · 37 alterados · 357 iguais (não tocados)
+<span class="t">[sav]</span> 9 mudanças de status registradas no histórico <span class="ok">✓</span></div>
+  </article>
+
+  <article class="case" data-p="eng">
+    <div class="case-top"><div><div class="pillar">Engenharia de dados</div><h3>Pipeline de recebíveis de cartão</h3></div><div class="scale">D-1, agendado</div></div>
+    <div class="pv">
+      <div><div class="lbl">Problema</div><p>Os arquivos de vendas, recebimentos, pagamentos e PIX chegavam compactados num servidor SFTP, em JSON, e a conciliação dependia de baixar e abrir tudo à mão.</p></div>
+      <div><div class="lbl">Solução</div><ul>
+        <li>Orquestrador que conecta ao SFTP, baixa os ZIPs, extrai e identifica o tipo de cada JSON.</li>
+        <li>Um importador por tipo grava no MySQL, com controle do que já foi importado.</li>
+        <li>Arquivos processados são movidos no servidor e os não reconhecidos vão para quarentena.</li>
+      </ul></div>
+    </div>
+    <div class="flow-box"><div class="flow">
+      <div class="node"><small>sftp</small>ZIPs do dia anterior</div><div class="arr">→</div>
+      <div class="node key"><small>orquestrador</small>Extrai e classifica</div><div class="arr">→</div>
+      <div class="node"><small>importadores</small>Vendas · Recebimentos · Pagamentos · PIX</div><div class="arr">→</div>
+      <div class="node"><small>banco</small>MySQL</div>
+    </div></div>
+    <div class="stack"><span>Python</span><span>SFTP</span><span>JSON</span><span>MySQL</span><span>Agendador do Windows</span></div>
+    <div class="log"><span class="t">[BIN]</span> 4 ZIPs baixados · 4 tipos reconhecidos · importação concluída <span class="ok">✓</span> · ZIPs movidos para processados</div>
+  </article>
+
+  <article class="case" data-p="tool">
+    <div class="case-top"><div><div class="pillar">Ferramenta</div><h3>Power BI Analyzer</h3></div><div class="scale">Ferramenta externa do Power BI Desktop</div></div>
+    <div class="pv">
+      <div><div class="lbl">Problema</div><p>Com mais de 15 painéis, revisar desempenho e organização de cada modelo à mão não escalava: medidas sem pasta, DAX caro e colunas pesadas passavam despercebidos.</p></div>
+      <div><div class="lbl">Solução</div><ul>
+        <li>Botão dentro do Power BI que conecta ao modelo aberto em modo somente leitura.</li>
+        <li>Lê metadados e estatísticas de memória (VertiPaq) e aplica regras de DAX, organização e Power Query.</li>
+        <li>Gera um relatório em PDF com os achados, além de CSV e JSON para análise.</li>
+      </ul></div>
+    </div>
+    <div class="flow-box"><div class="flow">
+      <div class="node"><small>power bi</small>Modelo aberto</div><div class="arr">→</div>
+      <div class="node key"><small>analyzer</small>Coleta metadados e memória</div><div class="arr">→</div>
+      <div class="node"><small>regras</small>DAX · VertiPaq · organização</div><div class="arr">→</div>
+      <div class="node"><small>saída</small>PDF + CSV + JSON</div>
+    </div></div>
+    <div class="stack"><span>Python</span><span>MSOLAP / DMVs</span><span>DAX</span><span>VertiPaq</span><span>ReportLab</span></div>
+    <div class="log"><span class="t">[analyzer]</span> 214 medidas · 23 sem pasta · 7 FILTER dentro de CALCULATE · 3 colunas com cardinalidade alta <span class="w">⚠</span></div>
+  </article>
+
+  <article class="case" data-p="tool">
+    <div class="case-top"><div><div class="pillar">Ferramenta · IA</div><h3>Mapeador de processos em vídeo</h3></div><div class="scale">Vídeo de tela → procedimento escrito</div></div>
+    <div class="pv">
+      <div><div class="lbl">Problema</div><p>Documentar um processo operacional exigia alguém assistir à gravação inteira e escrever o passo a passo, campo por campo.</p></div>
+      <div><div class="lbl">Solução</div><ul>
+        <li>Extrai quadros do vídeo com FFmpeg e analisa em blocos com a API da OpenAI, com transcrição opcional da narração.</li>
+        <li>Gera um procedimento em Word e Markdown para quem nunca usou o sistema, e um mapeamento técnico em CSV e JSON.</li>
+        <li>Retoma de onde parou e preserva revisões manuais. Testes locais rodam sem enviar dados à API.</li>
+      </ul></div>
+    </div>
+    <div class="flow-box"><div class="flow">
+      <div class="node"><small>entrada</small>Gravação de tela</div><div class="arr">→</div>
+      <div class="node"><small>ffmpeg</small>Quadros + áudio</div><div class="arr">→</div>
+      <div class="node key"><small>ia</small>Análise visual e transcrição</div><div class="arr">→</div>
+      <div class="node"><small>saída</small>Procedimento + mapeamento</div>
+    </div></div>
+    <div class="stack"><span>Python</span><span>FFmpeg</span><span>OpenAI API</span><span>Word / Markdown</span><span>Testes automatizados</span></div>
+    <div class="log"><span class="t">[mapeador]</span> bloco 7/12 concluído · revisões manuais preservadas · retomando do bloco 8</div>
+  </article>
+
+  </div>
+  <p class="sec-sub" style="margin-top:14px;font-size:13px">As linhas escuras ilustram o tipo de log que cada automação gera. Os números são de exemplo.</p>
+</section>
+
+<section aria-labelledby="mais">
+  <div class="sec-head"><div><h2 id="mais">Mais automações</h2><p class="sec-sub">Projetos menores, todos em uso.</p></div></div>
+  <div class="more">
+    <div class="mini"><h3>Robô de crediário (HS PAY)</h3><p>Baixa diariamente os relatórios de parcelas, cobranças e aparelhos e atualiza a base do painel financeiro.</p><div class="stack"><span>Playwright</span><span>Outlook</span><span>pandas</span></div></div>
+    <div class="mini"><h3>Sincronização do CRM</h3><p>Puxa os tickets de atendimento pela API, em janelas de 90 dias com paginação, e grava sem duplicar.</p><div class="stack"><span>API REST</span><span>MySQL</span></div></div>
+    <div class="mini"><h3>ETL do data warehouse</h3><p>Carga diária agendada, com trava contra execução dupla e logs rotativos.</p><div class="stack"><span>Python</span><span>MySQL</span><span>PowerShell</span></div></div>
+    <div class="mini"><h3>Robô EAD</h3><p>Foto diária da base de treinamentos e fechamento automático do mês anterior no dia 1.</p><div class="stack"><span>Playwright</span><span>SQL</span></div></div>
+    <div class="mini"><h3>Robô de SMS</h3><p>Coleta D-1 do portal de envios. Na segunda-feira, cobre sexta, sábado e domingo.</p><div class="stack"><span>Playwright</span><span>MariaDB</span></div></div>
+    <div class="mini"><h3>Painel de Cartões V7</h3><p>Motor que gera kits e recebimentos. Passou a ler o arquivo direto, em vez de cerca de 16 mil chamadas ao Excel.</p><div class="stack"><span>Python</span><span>VBA</span><span>PowerShell</span></div></div>
+    <div class="mini"><h3>Data de abertura das lojas</h3><p>Cruza cadastro e primeira venda real e grava no banco numa transação única, com rollback.</p><div class="stack"><span>Python</span><span>ODBC</span><span>SQL</span></div></div>
+    <div class="mini"><h3>Envio de vendas a parceiros</h3><p>Atualiza as consultas do Excel e envia o arquivo por e-mail todo dia, pelo Agendador do Windows.</p><div class="stack"><span>Python</span><span>Excel</span><span>Outlook</span></div></div>
+    <div class="mini"><h3>Instalador de fontes corporativas</h3><p>Um executável assinado digitalmente que instala as 42 fontes da identidade visual em qualquer máquina.</p><div class="stack"><span>Windows</span><span>Assinatura de código</span></div></div>
+  </div>
+</section>
+
+<section aria-labelledby="bi">
+  <div class="sec-head"><div><h2 id="bi">Painéis Power BI</h2><p class="sec-sub">Modelos que alimentam decisões de diretoria, RH, comercial e lojas.</p></div></div>
+  <div class="dash">
+    <span>DRE</span><span>RH e Treinamento (PDU)</span><span>Painel Loja</span><span>Acessórios</span><span>Aparelhos</span><span>Serviços</span><span>Simuladores de premiação</span><span>Compras e Manutenção</span><span>Financeiras (HS PAY)</span><span>Tabela de preço</span><span>Pesquisa de satisfação</span><span>Campanha de Natal</span><span>Marketplace</span>
+  </div>
+</section>
+
+<footer>
+  <div>Projetos desenvolvidos no Grupo HS desde dezembro de 2024. As descrições omitem dados, credenciais e números internos.</div>
+  <div class="mono">Bauru, SP · Python · SQL · Power BI · DAX · Playwright · MySQL</div>
+</footer>
+</div>
+
+<script>
+(function(){
+  var btns=document.querySelectorAll('.filters button');
+  var cases=document.querySelectorAll('.case');
+  btns.forEach(function(b){b.addEventListener('click',function(){
+    var f=b.getAttribute('data-f');
+    btns.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+    cases.forEach(function(c){c.hidden=!(f==='all'||c.getAttribute('data-p')===f)});
+  })});
+  var mail='vhbellido12@gmail.com', t=document.getElementById('toast');
+  document.getElementById('copyMail').addEventListener('click',function(){
+    var done=function(){t.textContent='E-mail copiado: '+mail};
+    try{navigator.clipboard.writeText(mail).then(done,function(){t.textContent=mail});}catch(e){t.textContent=mail}
+  });
+})();
+</script>
+</body>
+</html>
