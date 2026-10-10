@@ -202,28 +202,6 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--line);color:v
 <span class="t">[sults]</span> 6 publicadas <span class="ok">✓</span> · 6 antigas arquivadas <span class="ok">✓</span></div>
   </article>
 
-  <article class="case" data-p="eng">
-    <div class="case-top"><div><div class="pillar">Engenharia de dados</div><h3>DRE gerencial reconstruída a partir do ERP</h3></div><div class="scale">Fato + 15 dimensões · carga histórica e mensal</div></div>
-    <div class="pv">
-      <div><div class="lbl">Problema</div><p>A DRE precisava ser aberta por loja, centro de custo e até por funcionário, mas o ERP (TOTVS Protheus) entrega lançamentos contábeis difíceis de explicar e auditar.</p></div>
-      <div><div class="lbl">Solução</div><ul>
-        <li>Modelo dimensional em SQL: uma tabela fato unificada e 15 dimensões (conta, centro de custo, filial, fornecedor, verba de folha…).</li>
-        <li>Python extrai, transforma e grava em Parquet para o Power BI.</li>
-        <li>A folha é aberta por funcionário e sempre fecha de volta no lançamento contábil.</li>
-        <li>O mês só é publicado quando as conferências contábeis e de folha batem. Regra própria para o 13º em dezembro.</li>
-      </ul></div>
-    </div>
-    <div class="flow-box"><div class="flow">
-      <div class="node"><small>origem</small>SQL Server · Protheus</div><div class="arr">→</div>
-      <div class="node"><small>sql</small>Fato + dimensões</div><div class="arr">→</div>
-      <div class="node key"><small>python</small>Transforma e valida</div><div class="arr">→</div>
-      <div class="node"><small>armazenamento</small>Parquet</div><div class="arr">→</div>
-      <div class="node"><small>consumo</small>Power BI</div>
-    </div></div>
-    <div class="stack"><span>SQL Server</span><span>Python</span><span>pandas</span><span>Parquet</span><span>Modelagem dimensional</span><span>Power BI</span></div>
-    <div class="log"><span class="t">[validar_modelo]</span> trava contábil <span class="ok">ok</span> · trava de folha <span class="ok">ok</span> → mês liberado para publicação</div>
-  </article>
-
   <article class="case" data-p="rpa">
     <div class="case-top"><div><div class="pillar">Robô</div><h3>Robô IW: coleta no portal da operadora</h3></div><div class="scale">Todos os logins e PDVs · 5 relatórios</div></div>
     <div class="pv">
